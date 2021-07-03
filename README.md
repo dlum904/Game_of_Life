@@ -1,5 +1,11 @@
 Implement Conway's Game of Life (description in Wikipedia).
 
+- Made using JavaScript.
+- Added a pause and resume button that pauses and resumes the game.
+- Used localstorage to save and store the game state.
+- Was trying to add an increase/decrease speed feature, but ran into issues.
+
+
 Requirements:
 
 
