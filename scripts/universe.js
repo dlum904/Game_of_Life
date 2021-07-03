@@ -7,7 +7,8 @@ export default class Universe {
         for (let i = 0; i < row; i++) {
             this.grid[i] = new Array(col)
             for (let j = 0; j < col; j++) {
-                this.grid[i][j] = Math.floor(Math.random() * 2);
+                // this.grid[i][j] = Math.floor(Math.random() * 2);
+                this.grid[i][j] = 0
             }
         }
     }

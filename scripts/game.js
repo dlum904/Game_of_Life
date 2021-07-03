@@ -7,10 +7,11 @@ export default class Game {
         this.canvas = canvas;
         this.ctx = canvas.getContext("2d");
         this.universe = new Universe(col, row);
-        this.paused = false;
+        this.paused = true;
         this.scale = 10;
         this.fps = 15;
         this.registerEvents();
+        this.bigBang();
         this.startAnimating(this.fps);
     }
 
@@ -27,33 +28,12 @@ export default class Game {
         const pauseButton = document.querySelector("#pause");
         const saveButton = document.querySelector("#save");
         const loadButton = document.querySelector("#load");
-        // const speedDwn = document.querySelector("#speeddwn");
-        // const speedUp = document.querySelector("#speedup");
-        // let that = this;
+
+        let that = this;
         pauseButton.addEventListener("click", () => {
             this.paused = !this.paused;
         });
-        // speedDwn.addEventListener("click", () => {
-        //     debugger
-        //     that.pause()
-        //     if (that.fps - 2 > 0) {
-        //         debugger
-        //         that.fps -= 2
-        //         debugger
-        //     }
 
-        //     that.resume()
-        // });
-        // speedUp.addEventListener("click", () => {
-        //     debugger
-        //     that.pause();
-        //     if (that.fps + 2 <= 60) {
-        //         debugger
-        //         that.fps += 2
-        //         debugger
-        //     }
-        //     that.resume();
-        // });
         saveButton.addEventListener("click", () => {
             localStorage.setItem("savedUniverse", JSON.stringify(this.universe.grid));
         });
@@ -67,6 +47,12 @@ export default class Game {
                 this.universe.grid = JSON.parse(localStorage.getItem("savedUniverse"));
             }
         });
+
+        this.canvas.addEventListener("click", (e) => {
+            // alert(`you clicked ${e.offsetX} x ${e.offsetY}`)
+            this.universe.grid[Math.floor(e.offsetY / 10)][Math.floor(e.offsetX / 10)] = 1;
+            this.bigBang();
+        })
     }
 
     // this function will start animating our universe
@@ -85,9 +71,9 @@ export default class Game {
                 }
             }
         }
-
     }
     
+
 
     startAnimating(fps) {
         this.fpsInterval = 1000 / fps;
