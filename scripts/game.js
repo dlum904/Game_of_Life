@@ -7,28 +7,38 @@ export default class Game {
         this.ctx = canvas.getContext("2d");
         this.universe = new Universe(col, row);
         this.paused = false;
+        this.scale = 10;
         this.startAnimating(5);
     }
 
     // this function will start animating our universe
     bigBang() {
-        // draws out universe
-        this.ctx.clearRect(0, 0, 1200, 900)
+        // draws universe
+        this.ctx.clearRect(0, 0, 1920, 1080)
         for (let i = 0; i < this.row; i++) {
             for (let j = 0; j < this.col; j++) {
                 // if the cell is DEAD (WHITE SQUARES) 0
-                if (this.universe.grid[i][j].state === 0) {
+                if (this.universe.grid[i][j] === 0) {
                     this.ctx.beginPath();
-                    this.ctx.rect(j * 20, i * 20, 20, 20);
+                    this.ctx.rect(j * this.scale, i * this.scale, this.scale, this.scale);
                     this.ctx.stroke();
-                } else if (this.universe.grid[i][j].state === 1) { // if cell is ALIVE (BLACK SQUARES) 1
-                    this.ctx.fillRect(j * 20, i * 20, 20, 20);
+                } else if (this.universe.grid[i][j] === 1) { // if cell is ALIVE (BLACK SQUARES) 1
+                    this.ctx.fillRect(j * this.scale, i * this.scale, this.scale, this.scale);
                 }
             }
         }
 
     }
     
+    pause() {
+        this.paused = true;
+    }
+
+    resume() {
+        this.paused = false;
+        this.startAnimating(5);
+    }
+
     startAnimating(fps) {
         this.fpsInterval = 1000 / fps;
         this.then = Date.now();
@@ -40,11 +50,10 @@ export default class Game {
         requestAnimationFrame(this.animate.bind(this));
         this.now = Date.now();
         this.elapsed = this.now - this.then;
-        if (this.elapsed > this.fpsInterval) {
+        if (this.elapsed > this.fpsInterval && !this.paused) {
             this.then = this.now - (this.elapsed % this.fpsInterval);
             this.bigBang();
-            console.log(this.universe.grid)
-            // debugger
+            // console.log(this.universe.grid)
             this.universe.progress();
         }
     }
