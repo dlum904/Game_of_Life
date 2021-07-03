@@ -9,7 +9,7 @@ export default class Game {
         this.universe = new Universe(col, row);
         this.paused = false;
         this.scale = 10;
-        this.fps = 5;
+        this.fps = 15;
         this.registerEvents();
         this.startAnimating(this.fps);
     }
@@ -27,11 +27,33 @@ export default class Game {
         const pauseButton = document.querySelector("#pause");
         const saveButton = document.querySelector("#save");
         const loadButton = document.querySelector("#load");
-
+        // const speedDwn = document.querySelector("#speeddwn");
+        // const speedUp = document.querySelector("#speedup");
+        // let that = this;
         pauseButton.addEventListener("click", () => {
             this.paused = !this.paused;
         });
+        // speedDwn.addEventListener("click", () => {
+        //     debugger
+        //     that.pause()
+        //     if (that.fps - 2 > 0) {
+        //         debugger
+        //         that.fps -= 2
+        //         debugger
+        //     }
 
+        //     that.resume()
+        // });
+        // speedUp.addEventListener("click", () => {
+        //     debugger
+        //     that.pause();
+        //     if (that.fps + 2 <= 60) {
+        //         debugger
+        //         that.fps += 2
+        //         debugger
+        //     }
+        //     that.resume();
+        // });
         saveButton.addEventListener("click", () => {
             localStorage.setItem("savedUniverse", JSON.stringify(this.universe.grid));
         });

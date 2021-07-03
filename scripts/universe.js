@@ -29,15 +29,12 @@ export default class Universe {
                 // if less than 2 neighbors; kill the cell
                 if (this.grid[i][j] === 1 && numNeighbors < 2) {
                     nextGrid[i][j] = 0;
-                    console.log(`${i} ${j} dies from low population`)
                 // if more than 3 neighbors; kill due to overpopulation
                 } else if (this.grid[i][j] === 1 && numNeighbors > 3) {
                     nextGrid[i][j] = 0;
-                    console.log(`${i} ${j} dies from overpopulation`);
                 // if cell is dead, but has exactly 3 neighbors, revives
                 } else if (this.grid[i][j] === 0 && numNeighbors === 3) {
                     nextGrid[i][j] = 1;
-                    console.log(`${i} ${j} revives from 3 neighbors`)
 
                 };
             }
@@ -55,48 +52,37 @@ export default class Universe {
 
     countNeighbors(row, col) {
         let count = 0;
-        // console.log(`row ${row}`);
-        // console.log(`col ${col}`);
         // check down
         if (row + 1 < this.row && this.grid[row + 1][col] === 1) {
             count += 1
-
         }
         // check up
         if (row - 1 >= 0 && this.grid[row - 1][col] === 1) {
             count += 1
-
         }
         // check left
         if (col - 1 >= 0 && this.grid[row][col - 1] === 1) {
             count += 1
-
         }
         // check right
         if (col + 1 < this.col && this.grid[row][col + 1] === 1) {
             count += 1
-
         }
-
         // check up left
         if ((row - 1 >= 0 && col - 1 >= 0) && this.grid[row - 1][col - 1] === 1) {
             count += 1
-            
         }
         // check up right
         if ((row - 1 >= 0 && col + 1 < this.col) && this.grid[row - 1][col + 1] === 1) {
             count += 1
-            
         }        
         //check down left
         if ((row + 1 < this.row && col - 1 >= 0) && this.grid[row + 1][col - 1] === 1) {
             count += 1
-            
         }
         //check down right
         if ((row + 1 < this.row && col + 1 < this.col) && this.grid[row + 1][col + 1] === 1) {
             count += 1
-            
         }
         return count;
     }
