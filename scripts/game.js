@@ -49,8 +49,8 @@ export default class Game {
         });
 
         this.canvas.addEventListener("click", (e) => {
-            // alert(`you clicked ${e.offsetX} x ${e.offsetY}`)
-            this.universe.grid[Math.floor(e.offsetY / 10)][Math.floor(e.offsetX / 10)] = 1;
+            // if the cell is 1 set it to 0, else set it 1.
+            this.universe.grid[Math.floor(e.offsetY / 10)][Math.floor(e.offsetX / 10)] = this.universe.grid[Math.floor(e.offsetY / 10)][Math.floor(e.offsetX / 10)] === 1 ? 0 : 1;
             this.bigBang();
         })
     }
