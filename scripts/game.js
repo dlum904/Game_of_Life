@@ -4,12 +4,14 @@ export default class Game {
     constructor(canvas, col, row) {
         this.col = col;
         this.row = row;
+        this.canvas = canvas;
         this.ctx = canvas.getContext("2d");
         this.universe = new Universe(col, row);
         this.paused = false;
         this.scale = 10;
+        this.fps = 5;
         this.registerEvents();
-        this.startAnimating(5);
+        this.startAnimating(this.fps);
     }
 
     pause() {
@@ -23,15 +25,32 @@ export default class Game {
 
     registerEvents() {
         const pauseButton = document.querySelector("#pause");
+        const saveButton = document.querySelector("#save");
+        const loadButton = document.querySelector("#load");
+
         pauseButton.addEventListener("click", () => {
             this.paused = !this.paused;
-        })
+        });
+
+        saveButton.addEventListener("click", () => {
+            localStorage.setItem("savedUniverse", JSON.stringify(this.universe.grid));
+        });
+
+        loadButton.addEventListener("click", () => {
+            let loadedUniverse = JSON.parse(localStorage.getItem("savedUniverse"));
+
+            if (loadedUniverse.length !== this.universe.grid.length) {
+                alert("saved grid size does not match")
+            } else {
+                this.universe.grid = JSON.parse(localStorage.getItem("savedUniverse"));
+            }
+        });
     }
 
     // this function will start animating our universe
     bigBang() {
         // draws universe
-        this.ctx.clearRect(0, 0, 1920, 1080)
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
         for (let i = 0; i < this.row; i++) {
             for (let j = 0; j < this.col; j++) {
                 // if the cell is DEAD (WHITE SQUARES) 0
