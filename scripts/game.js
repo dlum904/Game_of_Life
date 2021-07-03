@@ -8,7 +8,24 @@ export default class Game {
         this.universe = new Universe(col, row);
         this.paused = false;
         this.scale = 10;
+        this.registerEvents();
         this.startAnimating(5);
+    }
+
+    pause() {
+        this.paused = true;
+    }
+
+    resume() {
+        this.paused = false;
+        this.startAnimating(5);
+    }
+
+    registerEvents() {
+        const pauseButton = document.querySelector("#pause");
+        pauseButton.addEventListener("click", () => {
+            this.paused = !this.paused;
+        })
     }
 
     // this function will start animating our universe
@@ -30,14 +47,6 @@ export default class Game {
 
     }
     
-    pause() {
-        this.paused = true;
-    }
-
-    resume() {
-        this.paused = false;
-        this.startAnimating(5);
-    }
 
     startAnimating(fps) {
         this.fpsInterval = 1000 / fps;
